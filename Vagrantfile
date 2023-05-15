@@ -16,6 +16,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
     apt-get install -y vim git shellcheck
-    apt-get install -y binutils gcc ltrace strace valgrind manpages-dev
+    apt-get install -y binutils gcc ltrace strace valgrind manpages-dev make
   SHELL
 end
