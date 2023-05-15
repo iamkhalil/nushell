@@ -1,18 +1,28 @@
 #include "nushell.h"
 
-int main(void)
+/**
+ * main - Entry point
+ * @argc: argument count
+ * @argv: argument vector
+ *
+ * Return: On success, 0 is returned. On error, a non-zero value is returned.
+ */
+int main(int argc, char *argv[])
 {
 	context_t ctx;
 
-	nu_init(&ctx);
-	while (!ctx.done) {
+	nu_init(&ctx, argc, argv);
+	while (!ctx.exit_loop) {
 		if (ctx.is_interactive)
 			prompt_display();
-		if (getline(&ctx.lineptr, &ctx.line_len, stdin) == -1) {
-			nu_free(&ctx);
-			if (feof(stdin))
-				exit(EXIT_SUCCESS);
-			exit(EXIT_FAILURE);
+		if (_getline(ctx.fd, &ctx) <= -1)
+			break;
+
+		/* Reset line */
+		if (!ctx.exit_loop) {
+			FREE((&ctx)->lineptr);
+			ctx.line_size = 0, ctx.line_capacity = LINE_BUFFER_CAPACITY;
+			ALLOC((&ctx)->lineptr, LINE_BUFFER_CAPACITY, &ctx);
 		}
 	}
 	nu_free(&ctx);

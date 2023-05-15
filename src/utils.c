@@ -33,6 +33,61 @@ void free_each(char **ptr)
 }
 
 /**
+ * _calloc - Allocate a zero-initialized array in the heap.
+ * @nmemb: number of elements
+ * @size: size of an element
+ *
+ * Return: On success, a pointer to the newly allocated array is returned.
+ * NULL otherwise.
+ */
+void *_calloc(size_t nmemb, size_t size)
+{
+	void *ptr;
+	size_t i;
+
+	if (nmemb == 0 || size == 0)
+		return NULL;
+	ptr = malloc(size * nmemb);
+	if (!ptr)
+		return NULL;
+	for (i = 0; i < (nmemb * size); ++i)
+		((char *)ptr)[i] = 0;
+	return ptr;
+}
+
+/**
+ * _realloc - Reallocate a memory block.
+ * @ptr: pointer to previously allocated memory area
+ * @old_size: actual size of memory
+ * @new_size: new size of memory
+ *
+ * Return: On success, a pointer to the newly allocated memory area is returned.
+ * NULL otherwise.
+ */
+void *_realloc(void *ptr, size_t old_size, size_t new_size)
+{
+	void *new;
+	size_t min, i;
+
+	if (old_size == new_size)
+		return ptr;
+	if (!ptr)
+		return malloc(new_size);
+	if (!new_size) {
+		FREE(ptr);
+		return NULL;
+	}
+	new = malloc(new_size);
+	if (!new)
+		return NULL;
+	min = (old_size < new_size) ? old_size : new_size;
+	for (i = 0; i < min; ++i)
+		((char *)new)[i] = ((char *)ptr)[i];
+	free(ptr);
+	return new;
+}
+
+/**
  * _strlen - Calculate the length of a string
  * @s: the given string
  *
@@ -80,6 +135,25 @@ int _strncmp(const char *s1, const char *s2, size_t n)
 		++s2;
 	}
 	return *s1 - *s2;
+}
+
+/**
+ * _strchr - locate character in string
+ * @s: the given string
+ * @c: the given character
+ *
+ * Return: On success, a pointer to the first occurrence of the character c in
+ * the string s is returned. NULL otherwise.
+ */
+char *_strchr(const char *s, char c)
+{
+	if (!s)
+		return NULL;
+	while (*s && (*s != c))
+		++s;
+	if (*s == c)
+		return (char *)s;
+	return NULL;
 }
 
 /**

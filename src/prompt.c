@@ -3,4 +3,5 @@
 void prompt_display(void)
 {
 	printf("~> ");
+	fflush(stdout);
 }
