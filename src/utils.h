@@ -21,6 +21,13 @@
 		}										\
 	} while (0)
 
+#define RESET(ptr)				\
+	do {					\
+		size_t i;			\
+		for (i = 0; ptr[i]; ++i)	\
+			ptr[i] = '\0';		\
+	} while (0)
+
 /* function prototypes */
 size_t _strlen(const char *s);
 int _strcmp(const char *s1, const char *s2);
@@ -28,6 +35,7 @@ int _strncmp(const char *s1, const char *s2, size_t n);
 char *_strchr(const char *s, char c);
 char *_strstr(const char *haystack, const char *needle);
 char *_strcat(char *dest, const char *src);
+char *_strncat(char *dest, const char *src, size_t n);
 char *_strcpy(char *dest, const char *src);
 char *_strdup(const char *s);
 

@@ -30,6 +30,22 @@ typedef struct context_s {
 	unsigned int exit_loop :1;
 } context_t;
 
+enum token_type {
+	TOK_EMPTY,
+	TOK_COMMAND,
+	TOK_SEMICOLON
+};
+
+typedef struct token_s {
+	enum token_type type;
+	char *value;
+} token_t;
+
+typedef struct listtoken_s {
+	token_t token;
+	struct listtoken_s *next;
+} listtoken_t;
+
 /* nu.c */
 void nu_init(context_t *ctx, int argc, char **argv);
 void nu_free(context_t *ctx);
@@ -43,5 +59,14 @@ void prompt_display(void);
 
 /* getline.c */
 int _getline(int fd, context_t *ctx);
+
+/* lexer.c */
+listtoken_t *scan(const char *line);
+
+/* lists.c */
+void print_list(const listtoken_t *head);
+listtoken_t *add_node_end(listtoken_t **head, const token_t *tok);
+void free_list(listtoken_t **head);
+size_t list_length(const listtoken_t *head);
 
 #endif /* NUSHELL_H */

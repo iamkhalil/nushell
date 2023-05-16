@@ -197,6 +197,27 @@ char *_strcat(char *dest, const char *src)
 }
 
 /**
+ * _strncat - Concatenate two strings using at most N bytes from the source string
+ * @dest: pointer to destination string
+ * @src: pointer to source string
+ * @n: number of bytes to append
+ *
+ * Return: pointer to the resulting string dest
+ */
+char *_strncat(char *dest, const char *src, size_t n)
+{
+	char *sp = dest;
+
+	if (n == 0)
+		return sp;
+	sp += _strlen(dest);
+	while (*src && n--)
+		*sp++ = *src++;
+	*sp = '\0';
+	return dest;
+}
+
+/**
  * _strcpy - Copy the string pointed to by src, to the buffer pointed to by dest
  * @src: pointer to the source string
  * @dest: pointer to the destination string
