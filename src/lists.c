@@ -1,5 +1,9 @@
 #include "nushell.h"
 
+/**
+ * print_list - Print all elements of a listtoken_t linked list
+ * @head: pointer to the first node
+ */
 void print_list(const listtoken_t *head)
 {
 	while (head) {
@@ -8,6 +12,14 @@ void print_list(const listtoken_t *head)
 	}
 }
 
+/**
+ * add_node_end - Add a node at the end of a listtoken_t linked list
+ * @head: pointer to pointer to the first node
+ * @tok: token struct
+ *
+ * Return: On success, a pointer to the newly allocated node is returned.
+ * On error, NULL is returned.
+ */
 listtoken_t *add_node_end(listtoken_t **head, const token_t *tok)
 {
 	listtoken_t *tail, *current;
@@ -38,6 +50,10 @@ listtoken_t *add_node_end(listtoken_t **head, const token_t *tok)
 	return tail;
 }
 
+/**
+ * free_list - Free a listtoken_t linked list
+ * @head: pointer to pointer to the first node
+ */
 void free_list(listtoken_t **head)
 {
 	listtoken_t *node;
@@ -51,6 +67,12 @@ void free_list(listtoken_t **head)
 	}
 }
 
+/**
+ * list_lenght - Count the number of nodes in a linked list
+ * @head: pointer to the first node
+ *
+ * Return: number of nodes
+ */
 size_t list_length(const listtoken_t *head)
 {
 	size_t nelem = 0;

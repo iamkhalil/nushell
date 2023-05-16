@@ -6,29 +6,31 @@
 #include <stdlib.h>
 
 /* macros */
-#define FREE(ptr)		\
-	do {			\
-		free(ptr);	\
-		ptr = NULL;	\
+#define FREE(ptr) \
+	do { \
+		free(ptr); \
+		ptr = NULL; \
 	} while (0)
 
-#define ALLOC(ptr, size, ctx)									\
-	do {											\
-		ptr = _calloc(size, sizeof(ptr[0]));						\
-		if (!ptr) {									\
-			nu_free(ctx);								\
-			panic("Failed to allocate memory at %s, line %d", __FILE__, __LINE__);	\
-		}										\
+#define ALLOC(ptr, size, ctx) \
+	do { \
+		ptr = _calloc(size, sizeof(ptr[0])); \
+		if (!ptr) { \
+			nu_free(ctx); \
+			panic("Failed to allocate memory at %s, line %d", __FILE__, __LINE__); \
+		} \
 	} while (0)
 
-#define RESET(ptr)				\
-	do {					\
-		size_t i;			\
-		for (i = 0; ptr[i]; ++i)	\
-			ptr[i] = '\0';		\
+#define RESET(ptr) \
+	do { \
+		size_t i; \
+		for (i = 0; ptr[i]; ++i) \
+			ptr[i] = '\0'; \
 	} while (0)
 
 /* function prototypes */
+void panic(const char *fmt, ...);
+
 size_t _strlen(const char *s);
 int _strcmp(const char *s1, const char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
@@ -39,7 +41,6 @@ char *_strncat(char *dest, const char *src, size_t n);
 char *_strcpy(char *dest, const char *src);
 char *_strdup(const char *s);
 
-void panic(const char *fmt, ...);
 void free_each(char **ptr);
 void *_calloc(size_t nmemb, size_t size);
 void *_realloc(void *ptr, size_t old_size, size_t new_size);
