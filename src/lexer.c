@@ -20,13 +20,13 @@ listtoken_t *scan(const char *line)
 		case ';':
 			if (cur.type == TOK_COMMAND) {
 				cur.value = sp;
-				add_node_end(&head, &cur);
+				add_node(&head, &cur);
 				RESET(sp);
 			}
 			_strncat(sp, line, 1);
 			cur.type = TOK_SEMICOLON;
 			cur.value = sp;
-			add_node_end(&head, &cur);
+			add_node(&head, &cur);
 			RESET(sp);
 			break;
 
@@ -37,10 +37,11 @@ listtoken_t *scan(const char *line)
 				_strncat(sp, line, 1);
 			if (*(line + 1) == '\0') {
 				cur.value = sp;
-				add_node_end(&head, &cur);
+				add_node(&head, &cur);
 			}
 			break;
 		}
 	}
+	reverse_list(&head);
 	return head;
 }

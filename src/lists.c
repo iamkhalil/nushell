@@ -13,9 +13,38 @@ void print_list(const listtoken_t *head)
 }
 
 /**
+ * add_node - Add a node at the beginning of a listtoken_t list
+ * @head: pointer to pointer to the first node
+ * @tok: pointer to struct token_s
+ *
+ * Return: On success, a pointer to the newly allocated node is returned.
+ * On error, NULL is returned.
+ */
+
+listtoken_t *add_node(listtoken_t **head, const token_t *tok)
+{
+	listtoken_t *new;
+
+	if (!head || !tok)
+		return NULL;
+	new = malloc(sizeof(listtoken_t));
+	if (!new)
+		return NULL;
+	new->token.type = tok->type;
+	new->token.value = _strdup(tok->value);
+	if (!new->token.value) {
+		free(new);
+		return NULL;
+	}
+	new->next = *head;
+	*head = new;
+	return *head;
+}
+
+/**
  * add_node_end - Add a node at the end of a listtoken_t linked list
  * @head: pointer to pointer to the first node
- * @tok: token struct
+ * @tok: pointer to struct token_s
  *
  * Return: On success, a pointer to the newly allocated node is returned.
  * On error, NULL is returned.
@@ -82,4 +111,28 @@ size_t list_length(const listtoken_t *head)
 		head = head->next;
 	}
 	return nelem;
+}
+
+/**
+ * reverse_list - Reverse a listtoken_t linked list
+ * @head: pointer to pointer to the first node
+ *
+ * Return: pointer to the first node
+ */
+listtoken_t *reverse_list(listtoken_t **head)
+{
+	listtoken_t *cur, *prev;
+
+	if (!head || !*head)
+		return NULL;
+	prev = NULL;
+	cur = *head;
+	while ((*head)->next) {
+		*head = (*head)->next;
+		cur->next = prev;
+		prev = cur;
+		cur = *head;
+	}
+	cur->next = prev;
+	return *head;
 }

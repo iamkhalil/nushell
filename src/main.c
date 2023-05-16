@@ -19,9 +19,9 @@ int main(int argc, char *argv[])
 		if (_getline(ctx.fd, &ctx) <= -1)
 			break;
 		tokens = scan(ctx.lineptr);
-#if 0
+#if 1
 		print_list(tokens);
-		printf("List size = %lu\n", list_length(tokens);
+		printf("List size = %lu\n", list_length(tokens));
 #endif
 		/* Reset line */
 		if (!ctx.exit_loop) {

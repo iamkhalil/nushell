@@ -71,6 +71,8 @@ listtoken_t *scan(const char *line);
 void print_list(const listtoken_t *head);
 size_t list_length(const listtoken_t *head);
 listtoken_t *add_node_end(listtoken_t **head, const token_t *tok);
+listtoken_t *add_node(listtoken_t **head, const token_t *tok);
+listtoken_t *reverse_list(listtoken_t **head);
 void free_list(listtoken_t **head);
 
 #endif /* NUSHELL_H */
