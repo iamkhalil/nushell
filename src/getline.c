@@ -40,7 +40,9 @@ int _getline(int fd, context_t *ctx)
 		ctx->exit_loop = true;
 		return END_OF_FILE;
 	}
-	if (rbytes == -1)
+	if (rbytes == -1) {
+		ctx->exit_loop = true;
 		ctx->exit_status = errno;
+	}
 	return rbytes;
 }
