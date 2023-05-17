@@ -10,7 +10,6 @@
 int main(int argc, char *argv[])
 {
 	context_t ctx;
-	listtoken_t *tokens;
 
 	nu_init(&ctx, argc, argv);
 	while (!ctx.exit_loop) {
@@ -18,18 +17,18 @@ int main(int argc, char *argv[])
 			prompt_display();
 		if (_getline(ctx.fd, &ctx) <= -1)
 			break;
-		tokens = scan(ctx.lineptr);
-#if 1
-		print_list(tokens);
-		printf("List size = %lu\n", list_length(tokens));
-#endif
-		/* Reset line */
-		if (!ctx.exit_loop) {
-			FREE((&ctx)->lineptr);
-			ctx.line_size = 0, ctx.line_capacity = LINE_BUFFER_CAPACITY;
-			ALLOC((&ctx)->lineptr, LINE_BUFFER_CAPACITY, &ctx);
+		ctx.tokens = scan(ctx.lineptr);
+		if (!ctx.tokens) {
+			ctx.exit_status = ERROR_LEXER;
+			break;
 		}
-		free_list(&tokens);
+#if 1
+		print_list(ctx.tokens);
+		printf("-> %lu elements\n", list_length(ctx.tokens));
+#endif
+
+		if (!ctx.exit_loop)
+			nu_reset(&ctx);
 	}
 	nu_free(&ctx);
 	return ctx.exit_status;

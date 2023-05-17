@@ -13,6 +13,7 @@
 #define LINE_BUFFER_CAPACITY	256
 
 #define END_OF_FILE -2
+#define ERROR_LEXER -3
 
 /* variables */
 extern char **environ;
@@ -44,6 +45,7 @@ typedef struct context_s {
 	char *lineptr;
 	size_t line_size;
 	size_t line_capacity;
+	listtoken_t *tokens;
 	int exit_status;
 	int fd;
 	unsigned int is_interactive :1;
@@ -53,6 +55,7 @@ typedef struct context_s {
 /* nu.c */
 void nu_init(context_t *ctx, int argc, char **argv);
 void nu_free(context_t *ctx);
+void nu_reset(context_t *ctx);
 
 /* env.c */
 void env_build(context_t *ctx, char **environ);

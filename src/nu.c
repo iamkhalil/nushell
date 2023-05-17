@@ -25,6 +25,7 @@ void nu_init(context_t *ctx, int argc, char **argv)
 	ctx->env_size = 0;
 	ctx->env_capacity = ENV_BUFFER_CAPACITY;
 	env_build(ctx, environ);
+	ctx->tokens = NULL;
 }
 
 void nu_free(context_t *ctx)
@@ -33,4 +34,14 @@ void nu_free(context_t *ctx)
 	free_each(ctx->envp);
 	if (ctx->fd > 2)
 		close(ctx->fd);
+	free_list(&ctx->tokens);
+}
+
+void nu_reset(context_t *ctx)
+{
+	FREE(ctx->lineptr);
+	ctx->line_size = 0;
+	ctx->line_capacity = LINE_BUFFER_CAPACITY;
+	ALLOC(ctx->lineptr, LINE_BUFFER_CAPACITY, ctx);
+	free_list(&ctx->tokens);
 }
