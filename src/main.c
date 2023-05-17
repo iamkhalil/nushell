@@ -17,10 +17,9 @@ int main(int argc, char *argv[])
 			prompt_display();
 		if (_getline(ctx.fd, &ctx) <= -1)
 			break;
-		ctx.tokens = scan(ctx.lineptr);
-		if (!ctx.tokens) {
-			ctx.exit_status = ERROR_LEXER;
-			break;
+		if (scan(ctx.lineptr, &ctx) == NULL) {
+			nu_reset(&ctx);
+			continue;
 		}
 #if 1
 		print_list(ctx.tokens);

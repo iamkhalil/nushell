@@ -13,7 +13,6 @@
 #define LINE_BUFFER_CAPACITY	256
 
 #define END_OF_FILE -2
-#define ERROR_LEXER -3
 
 /* variables */
 extern char **environ;
@@ -68,7 +67,7 @@ void prompt_display(void);
 int _getline(int fd, context_t *ctx);
 
 /* lexer.c */
-listtoken_t *scan(const char *line);
+listtoken_t *scan(const char *line, context_t *ctx);
 
 /* lists.c */
 void print_list(const listtoken_t *head);

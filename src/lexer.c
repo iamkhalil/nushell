@@ -1,6 +1,6 @@
 #include "nushell.h"
 
-listtoken_t *scan(const char *line)
+listtoken_t *scan(const char *line, context_t *ctx)
 {
 	char sp[256] = { '\0' }; /* TODO: we need a dynamic string */
 	token_t cur = { TOK_EMPTY, "" };
@@ -43,5 +43,6 @@ listtoken_t *scan(const char *line)
 		}
 	}
 	reverse_list(&head);
+	ctx->tokens = head;
 	return head;
 }
