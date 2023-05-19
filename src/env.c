@@ -46,6 +46,16 @@ char *which(context_t *ctx, const char *prog)
 	size_t capacity = 0, i = 0, len = _strlen(prog);
 	bool found = false;
 
+	if (!prog || !ctx)
+		return NULL;
+
+	if (prog[0] == '/' || prog[0] == '.') {
+		pathname = _strdup(prog);
+		if (!pathname || access(pathname, F_OK) == -1)
+			return NULL;
+		return pathname;
+	}
+
 	while (ctx->paths[i] && !found) {
 		if (len + _strlen(ctx->paths[i]) + 2 >= capacity) {
 			capacity += PATHNAME_CAPACITY;
