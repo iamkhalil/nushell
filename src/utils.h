@@ -6,6 +6,7 @@
 #include <stdlib.h>
 
 /* macros */
+
 #define FREE(ptr) \
 	do { \
 		free(ptr); \
@@ -40,6 +41,7 @@ char *_strcat(char *dest, const char *src);
 char *_strncat(char *dest, const char *src, size_t n);
 char *_strcpy(char *dest, const char *src);
 char *_strdup(const char *s);
+char **split(const char *s, const char *delim);
 
 void free_each(char **ptr);
 void *_calloc(size_t nmemb, size_t size);
