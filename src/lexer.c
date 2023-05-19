@@ -13,6 +13,10 @@ listtoken_t *scan(const char *line, context_t *ctx)
 		switch (*line) {
 		case ' ':
 		case '\t':
+		case '\a':
+		case '\r':
+		case '\v':
+		case '\f':
 			if (cur.type == TOK_COMMAND)
 				_strncat(sp, line, 1);
 			break;
