@@ -25,3 +25,43 @@ void env_build(context_t *ctx, char **environ)
 		env_add(ctx, *environ++);
 	env_add(ctx, NULL);
 }
+
+char *_getenv(const context_t *ctx, const char *key)
+{
+	size_t i, len;
+
+	i = 0;
+	len = _strlen(key);
+	while (ctx->envp[i]) {
+		if (_strncmp(key, ctx->envp[i], len) == 0)
+			return &ctx->envp[i][len + 1];
+		++i;
+	}
+	return NULL;
+}
+
+char *which(context_t *ctx, const char *prog)
+{
+	char *pathname = NULL;
+	size_t capacity = 0, i = 0, len = _strlen(prog);
+	bool found = false;
+
+	while (ctx->paths[i] && !found) {
+		if (len + _strlen(ctx->paths[i]) + 2 >= capacity) {
+			capacity += PATHNAME_CAPACITY;
+			free(pathname);
+			ALLOC(pathname, capacity, ctx);
+		}
+		_strcpy(pathname, ctx->paths[i]);
+		_strcat(pathname, "/");
+		_strcat(pathname, prog);
+		if (access(pathname, F_OK) == 0)
+			found = true;
+		++i;
+	}
+	if (!found) {
+		free(pathname);
+		pathname = NULL;
+	}
+	return pathname;
+}

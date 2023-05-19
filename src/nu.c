@@ -26,6 +26,7 @@ void nu_init(context_t *ctx, int argc, char **argv)
 	ctx->env_capacity = ENV_BUFFER_CAPACITY;
 	env_build(ctx, environ);
 	ctx->tokens = NULL;
+	ctx->paths = split(_getenv(ctx, "PATH"), ":");
 }
 
 void nu_free(context_t *ctx)
@@ -35,6 +36,7 @@ void nu_free(context_t *ctx)
 	if (ctx->fd > 2)
 		close(ctx->fd);
 	free_list(&ctx->tokens);
+	free_each(ctx->paths);
 }
 
 void nu_reset(context_t *ctx)

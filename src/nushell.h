@@ -11,8 +11,12 @@
 /* macros */
 #define ENV_BUFFER_CAPACITY	128
 #define LINE_BUFFER_CAPACITY	256
+#define PATHNAME_CAPACITY	128
 
-#define END_OF_FILE -2
+#define END_OF_FILE	-2
+#define ERROR_SPLIT	-3
+
+#define DELIM " \t\a\r\v\f"
 
 /* variables */
 extern char **environ;
@@ -45,6 +49,7 @@ typedef struct context_s {
 	size_t line_size;
 	size_t line_capacity;
 	listtoken_t *tokens;
+	char **paths;
 	int exit_status;
 	int fd;
 	unsigned int is_interactive :1;
@@ -59,6 +64,8 @@ void nu_reset(context_t *ctx);
 /* env.c */
 void env_build(context_t *ctx, char **environ);
 void env_add(context_t *ctx, const char *env);
+char *_getenv(const context_t *ctx, const char *key);
+char *which(context_t *ctx, const char *prog);
 
 /* prompt.c */
 void prompt_display(void);
@@ -76,5 +83,8 @@ listtoken_t *add_node_end(listtoken_t **head, const token_t *tok);
 listtoken_t *add_node(listtoken_t **head, const token_t *tok);
 listtoken_t *reverse_list(listtoken_t **head);
 void free_list(listtoken_t **head);
+
+/* command.c */
+void command_run(context_t *ctx);
 
 #endif /* NUSHELL_H */
