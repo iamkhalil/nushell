@@ -95,6 +95,7 @@ int command_builtin(context_t *ctx, char **command);
 
 /* builtins.c */
 void (*get_builtin_func(char *))(context_t *, char **);
-void nu_exit(context_t *ctx, char **command);
+void builtin_exit(context_t *ctx, char **command);
+void builtin_env(context_t *ctx, char **command);
 
 #endif /* NUSHELL_H */

@@ -3,7 +3,8 @@
 void (*get_builtin_func(char *prog))(context_t *, char **)
 {
 	static const builtin_t map[] = {
-		{"exit", nu_exit},
+		{"exit", builtin_exit},
+		{"env", builtin_env},
 		{NULL, NULL}
 	};
 	size_t i;
@@ -26,7 +27,7 @@ static size_t size_array(char **arr)
 	return len;
 }
 
-void nu_exit(context_t *ctx, char **command)
+void builtin_exit(context_t *ctx, char **command)
 {
 	size_t ac;
 
@@ -40,4 +41,13 @@ void nu_exit(context_t *ctx, char **command)
 		ctx->exit_status = (unsigned) _atoi(command[1]);
 	ctx->exit_loop = true;
 	puts("exit");
+}
+
+void builtin_env(context_t *ctx, char **command)
+{
+	size_t i;
+	(void)command;
+
+	for (i = 0; ctx->envp[i]; ++i)
+		puts(ctx->envp[i]);
 }
