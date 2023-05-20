@@ -13,6 +13,14 @@ static void set_file_descriptor(context_t *ctx, int argc, char **argv)
 	}
 }
 
+static void sigint_handler(int signum)
+{
+	(void)signum;
+	putchar('\n');
+	prompt_display();
+	fflush(NULL);
+}
+
 void nu_init(context_t *ctx, int argc, char **argv)
 {
 	ALLOC(ctx->lineptr, LINE_BUFFER_CAPACITY, ctx);
@@ -27,6 +35,7 @@ void nu_init(context_t *ctx, int argc, char **argv)
 	env_build(ctx, environ);
 	ctx->tokens = NULL;
 	ctx->paths = split(_getenv(ctx, "PATH"), ":");
+	signal(SIGINT, sigint_handler);
 }
 
 void nu_free(context_t *ctx)
