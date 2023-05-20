@@ -251,3 +251,25 @@ char *_strdup(const char *s)
 		return NULL;
 	return _strcpy(sp, s);
 }
+
+/**
+ * _atoi - convert a string to an integer
+ * @s: the given string
+ *
+ * Return: On success, the converted value is returned. 0 otheriwse.
+ */
+int _atoi(const char *s)
+{
+	int val, sign;
+
+	sign = 1;
+	while ((*s < '0' || *s > '9') && *s) {
+		if (*s == '-')
+			sign *= -1;
+		++s;
+	}
+	val = 0;
+	while (*s >= '0' && *s <= '9')
+		val = (val * 10) + (*s++ - '0');
+	return (val * sign);
+}

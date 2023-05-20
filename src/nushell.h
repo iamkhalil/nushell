@@ -56,6 +56,11 @@ typedef struct context_s {
 	unsigned int exit_loop :1;
 } context_t;
 
+typedef struct builtin_s {
+	char *prog;
+	void (*func)(context_t *, char **);
+} builtin_t;
+
 /* nu.c */
 void nu_init(context_t *ctx, int argc, char **argv);
 void nu_free(context_t *ctx);
@@ -86,5 +91,10 @@ void free_list(listtoken_t **head);
 
 /* command.c */
 void command_run(context_t *ctx);
+int command_builtin(context_t *ctx, char **command);
+
+/* builtins.c */
+void (*get_builtin_func(char *))(context_t *, char **);
+void nu_exit(context_t *ctx, char **command);
 
 #endif /* NUSHELL_H */

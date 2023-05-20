@@ -21,12 +21,23 @@ static void exec_child_proc(char *pathname, char **args, context_t *ctx)
 	}
 }
 
+int command_builtin(context_t *ctx, char **command)
+{
+	void (*func)(context_t *, char **);
+
+	func = get_builtin_func(command[0]);
+	if (!func)
+		return 0;
+	(*func)(ctx, command);
+	return 1;
+}
+
 static void command_exec(char **command, context_t *ctx)
 {
 	char *pathname;
 
-	/* if (command_builtin(command, ctx)) */
-	/* 	return; */
+	if (command_builtin(ctx, command))
+		return;
 
 	pathname = which(ctx, command[0]);
 	if (!pathname) {

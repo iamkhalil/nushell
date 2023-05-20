@@ -47,4 +47,6 @@ void free_each(char **ptr);
 void *_calloc(size_t nmemb, size_t size);
 void *_realloc(void *ptr, size_t old_size, size_t new_size);
 
+int _atoi(const char *s);
+
 #endif /* UTILS_H */
