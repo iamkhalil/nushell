@@ -66,6 +66,7 @@ typedef struct builtin_s {
 void nu_init(context_t *ctx, int argc, char **argv);
 void nu_free(context_t *ctx);
 void nu_reset(context_t *ctx);
+char *nu_getcwd(void);
 
 /* env.c */
 void env_build(context_t *ctx, char **environ);
@@ -103,5 +104,6 @@ void builtin_exit(context_t *ctx, char **command);
 void builtin_env(context_t *ctx, char **command);
 void builtin_setenv(context_t *ctx, char **command);
 void builtin_unsetenv(context_t *ctx, char **command);
+void builtin_cd(context_t *ctx, char **command);
 
 #endif /* NUSHELL_H */

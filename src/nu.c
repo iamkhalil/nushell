@@ -55,3 +55,21 @@ void nu_reset(context_t *ctx)
 	ALLOC(ctx->lineptr, LINE_BUFFER_CAPACITY, ctx);
 	free_list(&ctx->tokens);
 }
+
+char *nu_getcwd(void)
+{
+	char *buf;
+	size_t buf_size = 256;
+
+	buf = malloc(buf_size);
+	if (!buf)
+		return NULL;
+	while (getcwd(buf, buf_size) == NULL) {
+		buf_size += 256;
+		free(buf);
+		buf = malloc(buf_size);
+		if (!buf)
+			return NULL;
+	}
+	return buf;
+}

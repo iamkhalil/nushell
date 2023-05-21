@@ -7,6 +7,7 @@ void (*get_builtin_func(char *prog))(context_t *, char **)
 		{"env", builtin_env},
 		{"setenv", builtin_setenv},
 		{"unsetenv", builtin_unsetenv},
+		{"cd", builtin_cd},
 		{NULL, NULL}
 	};
 	size_t i;
@@ -68,8 +69,56 @@ void builtin_unsetenv(context_t *ctx, char **command)
 {
 	if (size_array(command) != 2) {
 		fprintf(stderr, "Usage: unsetenv VARIABLE\n");
-		ctx->exit_status = 1;
+		ctx->exit_status = EINVAL;
 		return;
 	}
 	env_delete(ctx, command[1]);
+}
+
+void builtin_cd(context_t *ctx, char **command)
+{
+	size_t ac;
+	char *cur_dir, *new_dir;
+
+	ac = size_array(command);
+	if (ac > 2) {
+		fprintf(stderr, "nushell: cd: too many arguments\n");
+		ctx->exit_status = 1;
+		return;
+	}
+
+	cur_dir = nu_getcwd();
+	if (ac == 2) {
+		if (_strcmp(command[1], cur_dir) == 0) {
+			free(cur_dir);
+			return;
+		} else if (_strcmp(command[1], "-") == 0) {
+			new_dir = _strdup(_getenv(ctx, "OLDPWD"));
+			if (!new_dir) {
+				free(cur_dir);
+				fprintf(stderr, "nushell: cd: OLDPWD not set\n");
+				ctx->exit_status = 1;
+				return;
+			}
+			puts(new_dir);
+		} else {
+			new_dir = _strdup(command[1]);
+		}
+
+	} else {
+		new_dir = _strdup(_getenv(ctx, "HOME"));
+	}
+
+	if (chdir(new_dir) == -1) {
+		perror("nushell: cd");
+		ctx->exit_status = errno;
+		free(cur_dir);
+		free(new_dir);
+		return;
+	}
+
+	env_set(ctx, "OLDPWD", cur_dir);
+	env_set(ctx, "PWD", new_dir);
+	free(cur_dir);
+	free(new_dir);
 }
