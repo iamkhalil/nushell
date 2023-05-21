@@ -18,7 +18,6 @@ static void sigint_handler(int signum)
 	(void)signum;
 	putchar('\n');
 	prompt_display();
-	fflush(NULL);
 }
 
 void nu_init(context_t *ctx, int argc, char **argv)

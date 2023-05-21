@@ -23,7 +23,20 @@ void env_build(context_t *ctx, char **environ)
 	ALLOC(ctx->envp, ctx->env_capacity, ctx);
 	while (*environ)
 		env_add(ctx, *environ++);
-	env_add(ctx, NULL);
+}
+
+int env_find(context_t *ctx, const char *key)
+{
+	size_t idx, len;
+
+	len = _strlen(key);
+	idx = 0;
+	while (ctx->envp[idx]) {
+		if (_strncmp(key, ctx->envp[idx], len) == 0)
+			return idx;
+		++idx;
+	}
+	return -1;
 }
 
 char *_getenv(const context_t *ctx, const char *key)
