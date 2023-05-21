@@ -39,6 +39,24 @@ int env_find(context_t *ctx, const char *key)
 	return -1;
 }
 
+void env_delete(context_t *ctx, const char *key)
+{
+	int idx, i;
+
+	if ((idx = env_find(ctx, key)) == -1)
+		return;
+	if (idx == (int)ctx->env_size - 1) { /* pop */
+		free(ctx->envp[--ctx->env_size]);
+		ctx->envp[ctx->env_size] = NULL;
+		return;
+	}
+	free(ctx->envp[idx]);
+	for (i = idx; i <= (int)ctx->env_size - 1; ++i)
+		ctx->envp[i] = ctx->envp[i + 1];
+	free(ctx->envp[--ctx->env_size]);
+	ctx->envp[ctx->env_size] = NULL;
+}
+
 char *_getenv(const context_t *ctx, const char *key)
 {
 	size_t i, len;

@@ -6,6 +6,7 @@ void (*get_builtin_func(char *prog))(context_t *, char **)
 		{"exit", builtin_exit},
 		{"env", builtin_env},
 		{"setenv", builtin_setenv},
+		{"unsetenv", builtin_unsetenv},
 		{NULL, NULL}
 	};
 	size_t i;
@@ -74,4 +75,14 @@ void builtin_setenv(context_t *ctx, char **command)
 		free(ctx->envp[idx]);
 		ctx->envp[idx] = new;
 	}
+}
+
+void builtin_unsetenv(context_t *ctx, char **command)
+{
+	if (size_array(command) != 2) {
+		fprintf(stderr, "Usage: unsetenv VARIABLE\n");
+		ctx->exit_status = EINVAL;
+		return;
+	}
+	env_delete(ctx, command[1]);
 }

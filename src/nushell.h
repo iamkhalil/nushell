@@ -71,6 +71,7 @@ void nu_reset(context_t *ctx);
 void env_build(context_t *ctx, char **environ);
 void env_add(context_t *ctx, const char *env);
 int env_find(context_t *ctx, const char *key);
+void env_delete(context_t *ctx, const char *key);
 char *_getenv(const context_t *ctx, const char *key);
 char *which(context_t *ctx, const char *prog);
 
@@ -100,5 +101,6 @@ void (*get_builtin_func(char *))(context_t *, char **);
 void builtin_exit(context_t *ctx, char **command);
 void builtin_env(context_t *ctx, char **command);
 void builtin_setenv(context_t *ctx, char **command);
+void builtin_unsetenv(context_t *ctx, char **command);
 
 #endif /* NUSHELL_H */
