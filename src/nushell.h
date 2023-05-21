@@ -72,6 +72,7 @@ void env_build(context_t *ctx, char **environ);
 void env_add(context_t *ctx, const char *env);
 int env_find(context_t *ctx, const char *key);
 void env_delete(context_t *ctx, const char *key);
+void env_set(context_t *ctx, const char *key, const char *value);
 char *_getenv(const context_t *ctx, const char *key);
 char *which(context_t *ctx, const char *prog);
 

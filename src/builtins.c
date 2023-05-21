@@ -36,7 +36,7 @@ void builtin_exit(context_t *ctx, char **command)
 	ac = size_array(command);
 	if (ac > 2) {
 		fprintf(stderr, "nushell: %s: too many arguments\n", command[0]);
-		ctx->exit_status = EINVAL;
+		ctx->exit_status = 1;
 		return;
 	}
 	if (ac == 2)
@@ -56,32 +56,19 @@ void builtin_env(context_t *ctx, char **command)
 
 void builtin_setenv(context_t *ctx, char **command)
 {
-	char *new;
-	int idx;
-
 	if (size_array(command) != 3) {
 		fprintf(stderr, "Usage: setenv VARIABLE NAME\n");
 		ctx->exit_status = EINVAL;
 		return;
 	}
-	ALLOC(new, _strlen(command[1]) + _strlen(command[2]) + 2, ctx);
-	_strcpy(new, command[1]);
-	_strcat(new, "=");
-	_strcat(new, command[2]);
-	if ((idx = env_find(ctx, command[1])) == -1) {
-		env_add(ctx, new);
-		free(new);
-	} else {
-		free(ctx->envp[idx]);
-		ctx->envp[idx] = new;
-	}
+	env_set(ctx, command[1], command[2]);
 }
 
 void builtin_unsetenv(context_t *ctx, char **command)
 {
 	if (size_array(command) != 2) {
 		fprintf(stderr, "Usage: unsetenv VARIABLE\n");
-		ctx->exit_status = EINVAL;
+		ctx->exit_status = 1;
 		return;
 	}
 	env_delete(ctx, command[1]);

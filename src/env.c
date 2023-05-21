@@ -57,6 +57,24 @@ void env_delete(context_t *ctx, const char *key)
 	ctx->envp[ctx->env_size] = NULL;
 }
 
+void env_set(context_t *ctx, const char *key, const char *value)
+{
+	char *env;
+	int idx;
+
+	ALLOC(env, _strlen(key) + _strlen(value) + 2, ctx);
+	_strcpy(env, key);
+	_strcat(env, "=");
+	_strcat(env, value);
+	if ((idx = env_find(ctx, key)) == -1) {
+		env_add(ctx, env);
+		free(env);
+	} else {
+		free(ctx->envp[idx]);
+		ctx->envp[idx] = env;
+	}
+}
+
 char *_getenv(const context_t *ctx, const char *key)
 {
 	size_t i, len;
