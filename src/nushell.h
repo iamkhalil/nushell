@@ -32,7 +32,8 @@ enum token_type {
 	TOK_OP_AND,
 	TOK_OP_OR,
 	TOK_BACKGROUND,
-	TOK_PIPE
+	TOK_PIPE,
+	TOK_COMMENT
 };
 
 /* structs */

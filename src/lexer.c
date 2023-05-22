@@ -72,6 +72,19 @@ listtoken_t *scan(const char *line, context_t *ctx)
 			RESET(sp);
 			break;
 
+		case '#':
+			if (cur.type == TOK_COMMAND) {
+				cur.value = sp;
+				add_node(&head, &cur);
+				RESET(sp);
+			}
+			_strncat(sp, line, 1);
+			cur.type = TOK_COMMENT;
+			cur.value = sp;
+			add_node(&head, &cur);
+			RESET(sp);
+			break;
+
 		default:
 			if (cur.type != TOK_COMMAND)
 				cur.type = TOK_COMMAND;

@@ -74,6 +74,9 @@ void command_run(context_t *ctx)
 			if (head->next)
 				head = head->next;
 		}
+		if (head->token.type == TOK_COMMENT) {
+			break;
+		}
 		head = head->next;
 	}
 }
