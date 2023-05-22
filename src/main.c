@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 			nu_reset(&ctx);
 			continue;
 		}
-#if 0
+#if 1
 		printf("getline: [%s]\n", ctx.lineptr);
 		print_list(ctx.tokens);
 		printf("-> %lu elements\n", list_length(ctx.tokens));

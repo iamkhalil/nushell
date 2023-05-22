@@ -34,8 +34,50 @@ listtoken_t *scan(const char *line, context_t *ctx)
 			RESET(sp);
 			break;
 
+		case '&':
+			if (cur.type == TOK_COMMAND) {
+				cur.value = sp;
+				add_node(&head, &cur);
+				RESET(sp);
+			}
+			if (*(line + 1) == '&') {
+				++line;
+				_strncat(sp, "&&", 2);
+				cur.type = TOK_OP_AND;
+				cur.value = sp;
+				add_node(&head, &cur);
+			} else {
+				_strncat(sp, line, 1);
+				cur.type = TOK_BACKGROUND;
+				cur.value = sp;
+				add_node(&head, &cur);
+			}
+			RESET(sp);
+			break;
+
+		case '|':
+			if (cur.type == TOK_COMMAND) {
+				cur.value = sp;
+				add_node(&head, &cur);
+				RESET(sp);
+			}
+			if (*(line + 1) == '|') {
+				++line;
+				_strncat(sp, "||", 2);
+				cur.type = TOK_OP_OR;
+				cur.value = sp;
+				add_node(&head, &cur);
+			} else {
+				_strncat(sp, line, 1);
+				cur.type = TOK_PIPE;
+				cur.value = sp;
+				add_node(&head, &cur);
+			}
+			RESET(sp);
+			break;
+
 		default:
-			if (cur.type == TOK_EMPTY || cur.type == TOK_SEMICOLON)
+			if (cur.type != TOK_COMMAND)
 				cur.type = TOK_COMMAND;
 			if (cur.type == TOK_COMMAND)
 				_strncat(sp, line, 1);

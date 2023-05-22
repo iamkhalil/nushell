@@ -28,7 +28,11 @@ typedef enum { false, true } bool;
 enum token_type {
 	TOK_EMPTY,
 	TOK_COMMAND,
-	TOK_SEMICOLON
+	TOK_SEMICOLON,
+	TOK_OP_AND,
+	TOK_OP_OR,
+	TOK_BACKGROUND,
+	TOK_PIPE
 };
 
 /* structs */
