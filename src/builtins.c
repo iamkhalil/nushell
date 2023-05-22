@@ -117,6 +117,10 @@ void builtin_cd(context_t *ctx, char **command)
 		return;
 	}
 
+	if (new_dir[0] != '/') { /* to get the absolute path when using env builtin */
+		free(new_dir);
+		new_dir = nu_getcwd();
+	}
 	env_set(ctx, "OLDPWD", cur_dir);
 	env_set(ctx, "PWD", new_dir);
 	free(cur_dir);
