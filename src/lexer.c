@@ -44,14 +44,12 @@ listtoken_t *scan(const char *line, context_t *ctx)
 				++line;
 				_strncat(sp, "&&", 2);
 				cur.type = TOK_OP_AND;
-				cur.value = sp;
-				add_node(&head, &cur);
 			} else {
 				_strncat(sp, line, 1);
 				cur.type = TOK_BACKGROUND;
-				cur.value = sp;
-				add_node(&head, &cur);
 			}
+			cur.value = sp;
+			add_node(&head, &cur);
 			RESET(sp);
 			break;
 
@@ -65,14 +63,12 @@ listtoken_t *scan(const char *line, context_t *ctx)
 				++line;
 				_strncat(sp, "||", 2);
 				cur.type = TOK_OP_OR;
-				cur.value = sp;
-				add_node(&head, &cur);
 			} else {
 				_strncat(sp, line, 1);
 				cur.type = TOK_PIPE;
-				cur.value = sp;
-				add_node(&head, &cur);
 			}
+			cur.value = sp;
+			add_node(&head, &cur);
 			RESET(sp);
 			break;
 
