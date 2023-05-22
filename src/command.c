@@ -66,6 +66,14 @@ void command_run(context_t *ctx)
 			command_exec(command, ctx);
 			free_each(command);
 		}
+		if (head->token.type == TOK_OP_OR && ctx->exit_status == 0) {
+			if (head->next)
+				head = head->next;
+		}
+		if (head->token.type == TOK_OP_AND && ctx->exit_status != 0) {
+			if (head->next)
+				head = head->next;
+		}
 		head = head->next;
 	}
 }
