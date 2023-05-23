@@ -27,9 +27,8 @@ int _getline(int fd, context_t *ctx)
 						__FILE__, __LINE__);
 			}
 		}
-		loc = _strchr(buf, '\n');
-		if (loc) {
-			*loc = '\0';
+		while ((loc = _strchr(buf, '\n')) != NULL) {
+			*loc = (ctx->is_interactive) ? '\0' : ';' ;
 			newline = true;
 		}
 		_strcat(ctx->lineptr, buf);
