@@ -133,6 +133,6 @@ void builtin_history(context_t *ctx, char **command)
 	size_t i;
 
 	(void)command;
-	for (i = 0; i < ctx->history_offset; ++i)
+	for (i = 0; i < ctx->history_size; ++i)
 		printf("%4lu  %s\n", i, ctx->history[i]);
 }

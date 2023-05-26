@@ -39,13 +39,13 @@ void history_add(context_t *ctx, const char *line)
 {
 	size_t i;
 
-	if (ctx->history_offset == ctx->history_capacity) {
+	if (ctx->history_size == ctx->history_capacity) { /* TODO: freeing by chunks */
 		free(ctx->history[0]);
 		for (i = 1; i < ctx->history_capacity; ++i)
 			ctx->history[i - 1] = ctx->history[i];
-		--ctx->history_offset;
+		--ctx->history_size;
 	}
-	ctx->history[ctx->history_offset++] = _strdup(line);
+	ctx->history[ctx->history_size++] = _strdup(line);
 }
 
 void history_load(context_t *ctx)
@@ -73,12 +73,12 @@ void history_save(context_t *ctx)
 	int fd;
 	size_t i;
 
-	if (ctx->history_offset) {
+	if (ctx->history_size) {
 		pathname = history_get_file(ctx, HISTORY_FILE);
 		if (pathname) {
 			fd = open(pathname, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd != -1) {
-				for (i = 0; i < ctx->history_offset; ++i) {
+				for (i = 0; i < ctx->history_size; ++i) {
 					write(fd, ctx->history[i], _strlen(ctx->history[i]));
 					write(fd, "\n", 1);
 				}

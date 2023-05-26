@@ -61,7 +61,7 @@ typedef struct context_s {
 	listtoken_t *tokens;
 	char **paths;
 	char **history;
-	size_t history_offset;
+	size_t history_size;
 	size_t history_capacity;
 	int exit_status;
 	int fd;
