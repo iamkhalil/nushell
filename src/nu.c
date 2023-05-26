@@ -35,6 +35,9 @@ void nu_init(context_t *ctx, int argc, char **argv)
 	ctx->tokens = NULL;
 	ctx->paths = split(_getenv(ctx, "PATH"), ":");
 	signal(SIGINT, sigint_handler);
+	ALLOC(ctx->history, HISTORY_CAPACITY, ctx);
+	ctx->history_offset = 0;
+	ctx->history_capacity = HISTORY_CAPACITY;
 }
 
 void nu_free(context_t *ctx)
@@ -45,6 +48,7 @@ void nu_free(context_t *ctx)
 		close(ctx->fd);
 	free_list(&ctx->tokens);
 	free_each(ctx->paths);
+	free_each(ctx->history);
 }
 
 void nu_reset(context_t *ctx)

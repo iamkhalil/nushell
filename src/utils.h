@@ -6,7 +6,6 @@
 #include <stdlib.h>
 
 /* macros */
-
 #define FREE(ptr) \
 	do { \
 		free(ptr); \

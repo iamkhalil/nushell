@@ -8,6 +8,7 @@ void (*get_builtin_func(char *prog))(context_t *, char **)
 		{"setenv", builtin_setenv},
 		{"unsetenv", builtin_unsetenv},
 		{"cd", builtin_cd},
+		{"history", builtin_history},
 		{NULL, NULL}
 	};
 	size_t i;
@@ -125,4 +126,13 @@ void builtin_cd(context_t *ctx, char **command)
 	env_set(ctx, "PWD", new_dir);
 	free(cur_dir);
 	free(new_dir);
+}
+
+void builtin_history(context_t *ctx, char **command)
+{
+	size_t i;
+
+	(void)command;
+	for (i = 0; i < ctx->history_offset; ++i)
+		printf("%4lu  %s\n", i, ctx->history[i]);
 }

@@ -6,6 +6,7 @@
 #include <sys/wait.h>
 #include <errno.h>
 #include <signal.h>
+#include <sys/stat.h>
 
 #include "utils.h"
 
@@ -13,11 +14,14 @@
 #define ENV_BUFFER_CAPACITY	128
 #define LINE_BUFFER_CAPACITY	256
 #define PATHNAME_CAPACITY	128
+#define HISTORY_CAPACITY	4096
 
 #define END_OF_FILE	-2
 #define ERROR_SPLIT	-3
 
 #define DELIM " \t\a\r\v\f"
+
+#define HISTORY_FILE ".nushell_history"
 
 /* variables */
 extern char **environ;
@@ -56,6 +60,9 @@ typedef struct context_s {
 	size_t line_capacity;
 	listtoken_t *tokens;
 	char **paths;
+	char **history;
+	size_t history_offset;
+	size_t history_capacity;
 	int exit_status;
 	int fd;
 	unsigned int is_interactive :1;
@@ -110,5 +117,13 @@ void builtin_env(context_t *ctx, char **command);
 void builtin_setenv(context_t *ctx, char **command);
 void builtin_unsetenv(context_t *ctx, char **command);
 void builtin_cd(context_t *ctx, char **command);
+void builtin_history(context_t *ctx, char **command);
+
+/* history.c */
+void history_load(context_t *ctx);
+char *history_get_file(context_t *ctx, const char *filename);
+char *read_file(context_t *ctx, const char *pathname);
+void history_add(context_t *ctx, const char *line);
+void history_save(context_t *ctx);
 
 #endif /* NUSHELL_H */

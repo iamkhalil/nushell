@@ -12,16 +12,19 @@ int main(int argc, char *argv[])
 	context_t ctx;
 
 	nu_init(&ctx, argc, argv);
+	history_load(&ctx);
 	while (!ctx.exit_loop) {
 		if (ctx.is_interactive)
 			prompt_display();
 		if (_getline(ctx.fd, &ctx) <= -1)
 			break;
+		if (_strcmp(ctx.lineptr, ""))
+			history_add(&ctx, ctx.lineptr);
 		if (scan(ctx.lineptr, &ctx) == NULL) {
 			nu_reset(&ctx);
 			continue;
 		}
-#if 1
+#if 0
 		printf("getline: [%s]\n", ctx.lineptr);
 		print_list(ctx.tokens);
 		printf("-> %lu elements\n", list_length(ctx.tokens));
@@ -30,6 +33,7 @@ int main(int argc, char *argv[])
 		if (!ctx.exit_loop)
 			nu_reset(&ctx);
 	}
+	history_save(&ctx);
 	nu_free(&ctx);
 	return ctx.exit_status;
 }
