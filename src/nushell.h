@@ -118,6 +118,7 @@ void builtin_setenv(context_t *ctx, char **command);
 void builtin_unsetenv(context_t *ctx, char **command);
 void builtin_cd(context_t *ctx, char **command);
 void builtin_history(context_t *ctx, char **command);
+void builtin_help(context_t *ctx, char **command);
 
 /* history.c */
 void history_load(context_t *ctx);

@@ -9,6 +9,7 @@ void (*get_builtin_func(char *prog))(context_t *, char **)
 		{"unsetenv", builtin_unsetenv},
 		{"cd", builtin_cd},
 		{"history", builtin_history},
+		{"help", builtin_help},
 		{NULL, NULL}
 	};
 	size_t i;
@@ -135,4 +136,35 @@ void builtin_history(context_t *ctx, char **command)
 	(void)command;
 	for (i = 0; i < ctx->history_size; ++i)
 		printf("%4lu  %s\n", i, ctx->history[i]);
+}
+
+void builtin_help(context_t *ctx, char **command)
+{
+	if (size_array(command) != 2) {
+		fprintf(stderr, "Usage: help BUILTIN\n");
+		ctx->exit_status = EINVAL;
+		return;
+	}
+
+	if (_strcmp(command[1], "exit") == 0) {
+		puts("exit: exit [n]\n\tExit the shell.\n\n\tExits the shell"
+			"with a status of N. If N is omitted, the exit"
+			"status is that of the last command executed.\n");
+	} else if (_strcmp(command[1], "env") == 0) {
+		puts("env: env\n\tprint the current environement");
+	} else if (_strcmp(command[1], "setenv") == 0) {
+		puts("setenv: setenv [VARIABLE] [VALUE]\n\tChange or add an"
+			"environment variable.\n");
+	} else if (_strcmp(command[1], "unsetenv") == 0) {
+		puts("unsetenv: unsetenv [VARIABLE]\n\tRemove an environment variable");
+	} else if (_strcmp(command[1], "cd") == 0) {
+		puts("cd: cd [- | directory]\n\tchange the working directory");
+	} else if (_strcmp(command[1], "history") == 0) {
+		puts("history: history\n\tDisplay the history list");
+	} else if (_strcmp(command[1], "help") == 0) {
+		puts("help: help [BUILTIN]\n\tDisplay information about builtin commands");
+	} else {
+		fprintf(stderr, "nushell: help: no help topics match '%s'\n", command[1]);
+		ctx->exit_status = 1;
+	}
 }

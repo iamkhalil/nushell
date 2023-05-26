@@ -36,7 +36,7 @@ void nu_init(context_t *ctx, int argc, char **argv)
 	ctx->paths = split(_getenv(ctx, "PATH"), ":");
 	signal(SIGINT, sigint_handler);
 	ALLOC(ctx->history, HISTORY_CAPACITY, ctx);
-	ctx->history_offset = 0;
+	ctx->history_size= 0;
 	ctx->history_capacity = HISTORY_CAPACITY;
 }
 
