@@ -47,5 +47,7 @@ void *_calloc(size_t nmemb, size_t size);
 void *_realloc(void *ptr, size_t old_size, size_t new_size);
 
 int _atoi(const char *s);
+char *to_string(unsigned int n);
+void reverse_array(char *arr, size_t size);
 
 #endif /* UTILS_H */

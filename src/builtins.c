@@ -153,8 +153,8 @@ void builtin_help(context_t *ctx, char **command)
 	} else if (_strcmp(command[1], "env") == 0) {
 		puts("env: env\n\tprint the current environement");
 	} else if (_strcmp(command[1], "setenv") == 0) {
-		puts("setenv: setenv [VARIABLE] [VALUE]\n\tChange or add an"
-			"environment variable.\n");
+		puts("setenv: setenv [VARIABLE] [VALUE]\n\tChange or add an "
+			"environment variable\n");
 	} else if (_strcmp(command[1], "unsetenv") == 0) {
 		puts("unsetenv: unsetenv [VARIABLE]\n\tRemove an environment variable");
 	} else if (_strcmp(command[1], "cd") == 0) {

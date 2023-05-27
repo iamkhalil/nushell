@@ -273,3 +273,40 @@ int _atoi(const char *s)
 		val = (val * 10) + (*s++ - '0');
 	return (val * sign);
 }
+
+/**
+ * reverse_array - Reverse an array of characters
+ * @arr: the given array
+ * @size: size of arr
+ */
+void reverse_array(char *arr, size_t size)
+{
+	char tmp;
+	size_t i;
+
+	for (i = 0; i < size / 2; ++i) {
+		tmp = arr[i];
+		arr[i] = arr[size - i - 1];
+		arr[size - i - 1] = tmp;
+	}
+}
+
+/**
+ * to_string - Convert an unsigned integer to a character string
+ * @n: the given integer value
+ *
+ * Return: A string holding the converted value
+ */
+char *to_string(unsigned int n)
+{
+	char buffer[64];
+	size_t i = 0;
+
+	do {
+		buffer[i++] = (n % 10) + '0';
+		n /= 10;
+	} while (n);
+	reverse_array(buffer, i);
+	buffer[i] = '\0';
+	return _strdup(buffer);
+}

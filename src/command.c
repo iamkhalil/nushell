@@ -49,6 +49,36 @@ static void command_exec(char **command, context_t *ctx)
 	FREE(pathname);
 }
 
+void command_expand(char **command, context_t *ctx)
+{
+	char *loc, *rhs;
+	char *sp, *res;
+	size_t i = 0;
+	int offset;
+
+	while (command[i] && (loc = _strchr(command[i], '$')) == NULL)
+		++i;
+
+	if (!loc || !*(loc + 1))
+		return;
+
+	rhs = loc + 1;
+	if (*rhs == '$' || *rhs == '?')
+		sp = to_string((*rhs == '$') ? getpid() : ctx->exit_status);
+	else
+		sp = _strdup(_getenv(ctx, rhs));
+
+	if (sp) {
+		offset = (loc - command[i]);
+		ALLOC(res, _strlen(sp) + offset + 1, ctx);
+		_strncat(res, command[i], offset);
+		_strcat(res, sp);
+		free(sp);
+		free(command[i]);
+		command[i] = res;
+	}
+}
+
 void command_run(context_t *ctx)
 {
 	listtoken_t *head;
@@ -63,6 +93,7 @@ void command_run(context_t *ctx)
 				ctx->exit_status = ERROR_SPLIT;
 				return;
 			}
+			command_expand(command, ctx);
 			command_exec(command, ctx);
 			free_each(command);
 		}
