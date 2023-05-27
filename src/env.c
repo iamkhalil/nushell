@@ -106,7 +106,7 @@ char *which(context_t *ctx, const char *prog)
 	}
 
 	while (ctx->paths[i] && !found) {
-		if (len + _strlen(ctx->paths[i]) + 2 >= capacity) {
+		while (len + _strlen(ctx->paths[i]) + 2 >= capacity) {
 			capacity += PATHNAME_CAPACITY;
 			free(pathname);
 			ALLOC(pathname, capacity, ctx);
