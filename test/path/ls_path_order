@@ -1,0 +1,34 @@
+#!/bin/bash
+#
+# check that the PATH is checked in the right order
+
+command="ls"
+tmp_file="checker_tmp_file_$R"
+
+# create a pseudo random file
+touch "$tmp_file"
+
+# start searching from the current dir
+OLDPATH="$PATH"
+PATH=".:$PATH"
+
+# run command
+echo "$command" | "$SHELL" > "$OUTPUTFILE" 2> "$ERROROUTPUTFILE" &
+
+# put PATH back
+PATH="$OLDPATH"
+
+# wait a little bit
+sleep "$SLEEPSECONDS"
+
+# check the result
+output=$(cat "$OUTPUTFILE")
+if [[ "$output" == "42" ]]; then
+    print_ok
+else
+    print_ko
+fi
+
+# clean up
+stop_shell
+rm -f "$tmp_file"

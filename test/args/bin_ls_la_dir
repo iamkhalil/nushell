@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# run /bin/bash with arguments
+
+tmp_filename=".checker_tmp_file_$R"
+tmp_filedir="/tmp"
+tmp_pathname="$tmp_filedir/$tmp_filename"
+command="/bin/ls -al $tmp_filedir/"
+
+# create a pseudo random file
+touch "$tmp_pathname"
+chmod 761 "$tmp_pathname"
+
+# run the command in the background
+echo "$command" | "$SHELL" > "$OUTPUTFILE" 2> /dev/null &
+
+# wait a little bit
+sleep "$SLEEPSECONDS"
+
+# check the result
+nmatch=$(cat "$OUTPUTFILE" | grep "$tmp_filename" | grep -c 'rwxrw---x')
+if [[ "$nmatch" -eq 1 ]]; then
+    print_ok
+else
+    print_ko
+fi
+
+# clean up
+stop_shell
+rm -f "$tmp_pathname"

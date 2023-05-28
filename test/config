@@ -1,0 +1,9 @@
+# Configuration file
+
+SHELL="../nushell"
+#SHELL="/bin/sh"
+TESTDIR="."
+R=$RANDOM
+OUTPUTFILE="checker_output_$R"
+ERROROUTPUTFILE="checker_error_output_$R"
+SLEEPSECONDS=1

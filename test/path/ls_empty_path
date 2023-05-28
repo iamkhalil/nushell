@@ -1,0 +1,39 @@
+#!/bin/bash
+#
+# check if ls is not found if the PATH is empty
+# check also that an error message is printed to the user
+
+command="ls"
+tmp_file="checker_tmp_file_$R"
+
+# create a pseudo random file
+touch "$tmp_file"
+
+# empty path
+OLDPATH="$PATH"
+PATH=""
+
+# run the command
+echo "$command" | "$SHELL" > "$OUTPUTFILE" 2> "$ERROROUTPUTFILE" &
+
+# put path back
+PATH="$OLDPATH"
+
+# wait a little bit
+sleep "$SLEEPSECONDS"
+
+# check the result
+nmatch=$(cat "$OUTPUTFILE" | grep -c "$tmp_file")
+if [[ "$nmatch" -eq 0 ]]; then
+    if [[ $(cat "$ERROROUTPUTFILE" | wc -c) -ge 5 ]]; then
+        print_ok
+    else
+        print_ko
+    fi
+else
+    print_ko
+fi
+
+# clean up
+stop_shell
+rm -f "$tmp_file"
