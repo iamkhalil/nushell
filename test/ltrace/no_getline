@@ -1,0 +1,22 @@
+#!/bin/bash
+#
+# check using ltrace if the getline function was used
+
+command="pwd"
+
+# run command in the background
+echo "command" | "$LTRACE" -bc -o "$LTRACEOUTPUTFILE" "$SHELL" > "$OUTPUTFILE" 2> /dev/null &
+
+# wait a little bit
+sleep "$SLEEPSECONDS"
+
+# check the result
+nmatch=$(cat "$LTRACEOUTPUTFILE" | grep -c 'getline')
+if [[ "$nmatch" -eq 0 ]]; then
+    print_ok
+else
+    print_ko
+fi
+
+# clean up
+stop_shell

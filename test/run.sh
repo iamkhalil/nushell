@@ -51,7 +51,7 @@ function stop_shell()
     if [[ $(pidof "$SHELL" | wc -l) -ne 0 ]]; then
         killall -9 "$SHELL" 2>&1 > /dev/null
     fi
-    rm -f "$OUTPUTFILE" "$ERROROUTPUTFILE"
+    rm -f "$OUTPUTFILE" "$ERROROUTPUTFILE" "$LTRACEOUTPUTFILE"
 }
 
 # load configuration
@@ -67,5 +67,4 @@ for dir in $(ls -d "$TESTDIR"/*/); do
 done
 
 # clean up
-rm -f "$OUTPUTFILE" "$ERROROUTPUTFILE"
-echo -ne "$RESET"
+rm -f "$OUTPUTFILE" "$ERROROUTPUTFILE" "$LTRACEOUTPUTFILE"

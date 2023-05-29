@@ -6,4 +6,6 @@ TESTDIR="."
 R=$RANDOM
 OUTPUTFILE="checker_output_$R"
 ERROROUTPUTFILE="checker_error_output_$R"
+LTRACEOUTPUTFILE="checker_ltrace_output_$R"
 SLEEPSECONDS=1
+LTRACE=`which ltrace`

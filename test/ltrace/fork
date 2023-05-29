@@ -1,0 +1,23 @@
+#!/bin/bash
+#
+# check if the fork syscall is invoked only for valid commands
+
+command="lss"
+#command="ls"
+
+# run command
+echo "$command" | "$LTRACE" -bc -o "$LTRACEOUTPUTFILE" "$SHELL" > "$OUTPUTFILE" 2> /dev/null &
+
+# wait a little bit
+sleep "$SLEEPSECONDS"
+
+# check result
+nmatch=$(cat "$LTRACEOUTPUTFILE" | grep -c 'fork')
+if [[ "$nmatch" -eq 0 ]]; then
+    print_ok
+else
+    print_ko
+fi
+
+# clean up
+stop_shell
