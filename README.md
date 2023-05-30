@@ -8,8 +8,8 @@ functionalities of the original Bourne Shell `sh`.
 ## Usage
 
 To use nushell, you have first to clone the project:
-```shell $ git clone
-https://github.com/iamkhalil/nushell.git
+```shell 
+$ git clone https://github.com/iamkhalil/nushell.git
 ```
 Then you've to build it:
 ```shell
@@ -53,29 +53,29 @@ relative PATHS, `nushell` has support also for the following features:
 | help             | Display information about builtin commands           |
 
 
-| Other    | Functionality        |
-| -------- | ----------           |
-| #        | Comment indicator    |
-| ;        | Commands separator   |
-| $$       | Current process ID   |
-| $?       | Exit code value      |
-| &&       | AND logical operator |
-| ||       | OR logical operator     |
-| CTRL+D   | Exit the shell (EOF)    |
-| CTRL+C   | Does not exit the shell |
+| Other        | Functionality           |
+| --------     | ----------              |
+| #            | Comment indicator       |
+| ;            | Commands separator      |
+| $$           | Current process ID      |
+| $?           | Exit code value         |
+| &&           | AND logical operator    |
+| &#124;&#124; | OR logical operator     |
+| CTRL+D       | Exit the shell (EOF)    |
+| CTRL+C       | Does not exit the shell |
 
 
 ## Examples
 
 #### Interactive shell
 
-![interactive]()
+![interactive](https://imgur.com/a/jfFjzen)
 
 #### Non-interactive shell
 
-![non-interactive-script]()
+![non-interactive-script](https://imgur.com/a/NB239sa)
 
-![non-interactive-pipe]()
+![non-interactive-pipe](https://imgur.com/a/L8LhbPZ)
 
 ## Author
 - **Mohamed khalil El-Bechir** - [medkhalilelb@gmail.com](medkhalilelb@gmail.com) | [GitHub/iamkhalil](https://github.com/iamkhalil)
