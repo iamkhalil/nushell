@@ -19,7 +19,7 @@ memcheck: all
 help:
 	@echo "List of available options:"
 	@echo " * all - build the project"
-	@echo " * test - run test suites"
+	@echo " * test - run the test suites"
 	@echo " * memcheck - check memory leaks using Valgrind"
 	@echo " * clean - delete build files"
 
