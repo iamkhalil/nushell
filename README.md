@@ -69,13 +69,13 @@ relative PATHS, `nushell` has support also for the following features:
 
 #### Interactive shell
 
-![interactive](https://imgur.com/a/jfFjzen)
+![interactive](https://imgur.com/LcnH536.png)
 
 #### Non-interactive shell
 
-![non-interactive-script](https://imgur.com/a/NB239sa)
+![non-interactive-script](https://imgur.com/0sr9jUq.png)
 
-![non-interactive-pipe](https://imgur.com/a/L8LhbPZ)
+![non-interactive-pipe](https://imgur.com/LOZBvtl.png)
 
 ## Author
 - **Mohamed khalil El-Bechir** - [medkhalilelb@gmail.com](medkhalilelb@gmail.com) | [GitHub/iamkhalil](https://github.com/iamkhalil)
